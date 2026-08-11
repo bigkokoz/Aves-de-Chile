@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aprender — Aves de Chile</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="topbar">
+    <div class="brand">🐦 Aves de Chile <span class="dot">●</span></div>
+    <a class="nav-link" href="index.html">Inicio</a>
+    <a class="nav-link active" href="learn.html">Aprender a jugar</a>
+    <a class="nav-link" href="game.html">Juego</a>
+    <a class="nav-link" href="admin.html">Admin</a>
+  </nav>
+
+  <div class="wrap">
+    <div class="row">
+      <a class="btn ghost" href="index.html">◀ Atrás</a>
+      <div class="spacer"></div>
+      <span class="pill-info" id="count">—</span>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h1>Aprender a jugar 🎓</h1>
+      <p class="muted">
+        Estudia cada ave: mira su foto, lee su nombre y presiona <b>▶ Escuchar</b> para oír su canto.
+        Cuando te sientas listo, ve al <a href="game.html">Juego</a> y busca el <b>100% de acierto</b>.
+      </p>
+      <div class="hint-box">
+        <b>Cómo se juega:</b> en el juego eliges un modo (escuchar, ver o por nombre). Se te presenta un ave
+        y debes seleccionar la correcta entre varias opciones. Si aciertas, sumas; si fallas dos veces seguidas
+        con la misma ave, aparece una <b>pista</b> 💡. Tu puntaje es el <b>porcentaje de aciertos</b>.
+      </div>
+
+      <div class="grid" id="grid">
+        <p class="muted">Cargando aves…</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>Sección de estudio · Sin puntaje · Practica todo lo que quieras</footer>
+
+  <audio id="player"></audio>
+
+  <script src="js/storage.js"></script>
+  <script src="js/learn.js"></script>
+</body>
+</html>

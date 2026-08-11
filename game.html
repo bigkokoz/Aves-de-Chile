@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Juego — Aves de Chile</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="topbar">
+    <div class="brand">🐦 Aves de Chile <span class="dot">●</span></div>
+    <a class="nav-link" href="index.html">Inicio</a>
+    <a class="nav-link" href="learn.html">Aprender a jugar</a>
+    <a class="nav-link active" href="game.html">Juego</a>
+    <a class="nav-link" href="admin.html">Admin</a>
+  </nav>
+
+  <div class="wrap">
+    <div class="row">
+      <a class="btn ghost" href="index.html">◀ Atrás</a>
+      <button class="btn secondary" id="pauseBtn">⏸️ Pausa</button>
+      <div class="spacer"></div>
+      <span class="pill-info" id="modeLabel">Modo: —</span>
+    </div>
+
+    <!-- Pestañas -->
+    <div class="tabs" style="margin-top:14px">
+      <div class="tab active" data-tab="how">📖 Cómo jugar</div>
+      <div class="tab" data-tab="mode">🎚️ Modo de juego</div>
+      <div class="tab" data-tab="play">🎮 Jugar</div>
+    </div>
+
+    <!-- CÓMO JUGAR -->
+    <section class="card tab-panel" id="panel-how">
+      <h1>Cómo jugar 📖</h1>
+      <ol>
+        <li>Elige un <b>modo de juego</b> en la pestaña de al lado.</li>
+        <li>Se te presentará un ave (según el modo: su canto, su foto o su nombre).</li>
+        <li>Selecciona la opción que creas correcta entre las alternativas.</li>
+        <li>Si aciertas ✅ sumas acierto. Si fallas ❌ te avisamos.</li>
+        <li>Si fallas <b>2 veces seguidas</b> la misma ave, aparece una <b>pista</b> 💡.</li>
+        <li>Tu <b>puntaje es el % de aciertos</b>. ¡La meta es una calificación perfecta: 100%!</li>
+      </ol>
+      <p class="muted">Puedes pausar en cualquier momento con el botón <b>⏸️ Pausa</b> para reanudar, reiniciar o volver al menú.</p>
+      <button class="btn big" data-goto="mode">Elegir modo de juego →</button>
+    </section>
+
+    <!-- MODO DE JUEGO -->
+    <section class="card tab-panel hidden" id="panel-mode">
+      <h1>Modo de juego 🎚️</h1>
+      <p class="muted">¿Desde qué sentido quieres adivinar el ave?</p>
+      <div class="mode-grid">
+        <div class="mode-card" data-mode="listen">
+          <div class="emoji">🔊</div>
+          <h3>Escuchar</h3>
+          <p class="muted">Suena el canto y eliges el ave correcta entre fotos.</p>
+        </div>
+        <div class="mode-card" data-mode="see">
+          <div class="emoji">👁️</div>
+          <h3>Ver</h3>
+          <p class="muted">Ves la foto y eliges el nombre correcto.</p>
+        </div>
+        <div class="mode-card" data-mode="name">
+          <div class="emoji">📖</div>
+          <h3>Por nombre</h3>
+          <p class="muted">Lees el nombre y eliges la foto correcta.</p>
+        </div>
+      </div>
+      <div class="row" style="margin-top:18px">
+        <button class="btn big" id="startBtn" disabled>▶ Empezar a jugar</button>
+        <span class="muted" id="modeHint">Selecciona un modo para empezar.</span>
+      </div>
+    </section>
+
+    <!-- JUGAR -->
+    <section class="card tab-panel hidden" id="panel-play">
+      <div class="scorebar">
+        <b id="scoreText">Acierto: 0%</b>
+        <div class="progress"><span id="progressBar"></span></div>
+        <span class="pill-info" id="roundText">Ave 0 / 0</span>
+      </div>
+
+      <div id="prompt" class="center" style="margin:10px 0 6px"></div>
+      <div class="feedback center" id="feedback"></div>
+      <div class="options-grid" id="options"></div>
+      <div class="hint-box hidden" id="hintBox"></div>
+
+      <div class="row" style="margin-top:18px; justify-content:center" id="nextRow">
+        <!-- botón siguiente / resultado -->
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal de pausa -->
+  <div class="overlay" id="pauseOverlay">
+    <div class="modal">
+      <h2>⏸️ Pausa</h2>
+      <p class="muted">¿Qué quieres hacer?</p>
+      <button class="btn" id="resumeBtn">▶ Reanudar</button>
+      <button class="btn sun" id="restartBtn">🔄 Reiniciar</button>
+      <button class="btn secondary" id="menuBtn">🏠 Menú principal</button>
+    </div>
+  </div>
+
+  <footer>Meta: 100% de acierto 🎯</footer>
+
+  <audio id="gameAudio"></audio>
+
+  <script src="js/storage.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

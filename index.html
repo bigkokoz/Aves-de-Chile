@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aves de Chile — Aprende a reconocerlas</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="topbar">
+    <div class="brand">🐦 Aves de Chile <span class="dot">●</span></div>
+    <a class="nav-link active" href="index.html">Inicio</a>
+    <a class="nav-link" href="learn.html">Aprender a jugar</a>
+    <a class="nav-link" href="game.html">Juego</a>
+    <a class="nav-link" href="admin.html">Admin</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hover-name" id="hoverName">Pasa el mouse por las aves 🪶</div>
+    <h1 class="hero-title">Aprende las aves de Chile</h1>
+    <p class="hero-sub muted">
+      Reconoce cada ave por su <b>nombre</b>, su <b>canto</b> y su <b>apariencia</b>.
+      Pasa el cursor por las aves posadas en la roca: abrirán sus alas y cantarán.
+    </p>
+
+    <!-- Cordillera de fondo -->
+    <svg class="andes" viewBox="0 0 1200 220" preserveAspectRatio="none">
+      <polygon points="0,220 160,70 260,140 380,40 520,150 640,60 780,150 900,70 1040,150 1200,80 1200,220"
+               fill="#8b98a6"/>
+      <polygon points="120,120 160,70 210,118 175,118 200,95 145,95" fill="#f4f8fb"/>
+      <polygon points="330,95 380,40 440,110 400,110 420,80 360,80" fill="#f4f8fb"/>
+      <polygon points="850,120 900,70 960,120 915,120 935,95 880,95" fill="#f4f8fb"/>
+    </svg>
+
+    <!-- Borde de roca con aves -->
+    <div class="rock-ledge" id="ledge">
+      <p class="muted" style="color:#ede4d3">Cargando aves…</p>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="card">
+      <h2>¿Cómo funciona?</h2>
+      <div class="row" style="gap:24px; align-items:flex-start">
+        <div style="flex:1; min-width:220px">
+          <h3>🎓 Aprender a jugar</h3>
+          <p class="muted">Revisa todas las aves con su foto y nombre, y reproduce su canto para memorizarlas antes de competir.</p>
+          <a class="btn ghost" href="learn.html">Ir a Aprender</a>
+        </div>
+        <div style="flex:1; min-width:220px">
+          <h3>🎮 Juego</h3>
+          <p class="muted">Elige tu modo (escuchar, ver o por nombre) y adivina qué ave es. La meta: llegar al <b>100% de acierto</b>.</p>
+          <a class="btn" href="game.html">Ir al Juego</a>
+        </div>
+        <div style="flex:1; min-width:220px">
+          <h3>📤 Cargar aves (Admin)</h3>
+          <p class="muted">Sube fácilmente el nombre, la foto, los PNG (parado y con alas abiertas) y el audio de cada ave.</p>
+          <a class="btn secondary" href="admin.html">Ir a Admin</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Hecho con 🪶 para aprender la avifauna de Chile · Contenido editable desde el panel Admin</footer>
+
+  <audio id="chirp"></audio>
+
+  <script src="js/storage.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

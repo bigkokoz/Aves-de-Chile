@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Cargar aves</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="topbar">
+    <div class="brand">🐦 Aves de Chile <span class="dot">●</span></div>
+    <a class="nav-link" href="index.html">Inicio</a>
+    <a class="nav-link" href="learn.html">Aprender a jugar</a>
+    <a class="nav-link" href="game.html">Juego</a>
+    <a class="nav-link active" href="admin.html">Admin</a>
+  </nav>
+
+  <div class="wrap">
+    <div class="row">
+      <a class="btn ghost" href="index.html">◀ Atrás</a>
+      <div class="spacer"></div>
+      <span class="pill-info" id="count">—</span>
+    </div>
+
+    <!-- Formulario de carga -->
+    <div class="card" style="margin-top:14px">
+      <h1>Cargar un ave 📤</h1>
+      <p class="muted">
+        Completa el nombre, arrastra (o haz clic para elegir) cada archivo y presiona <b>Guardar ave</b>.
+        Se guardan en tu navegador y aparecen al instante en Inicio, Aprender y Juego.
+      </p>
+
+      <div class="form-row">
+        <label for="name">Nombre del ave *</label>
+        <input type="text" id="name" placeholder="Ej: Chincol" />
+      </div>
+
+      <div class="form-row">
+        <label for="hint">Pista (opcional) — se muestra tras 2 fallos</label>
+        <input type="text" id="hint" placeholder="Ej: Tiene un copete y collar rufo" />
+      </div>
+
+      <div class="upload-grid">
+        <div>
+          <label>📷 Foto (.jpg) *</label>
+          <div class="drop" data-target="photo">
+            <div>Arrastra o haz clic</div>
+            <small>JPG / PNG</small>
+            <input type="file" accept="image/*" hidden />
+            <div class="preview"></div>
+          </div>
+        </div>
+        <div>
+          <label>🕊️ PNG parado *</label>
+          <div class="drop" data-target="standing">
+            <div>Arrastra o haz clic</div>
+            <small>PNG transparente</small>
+            <input type="file" accept="image/png,image/*" hidden />
+            <div class="preview"></div>
+          </div>
+        </div>
+        <div>
+          <label>🦅 PNG alas abiertas *</label>
+          <div class="drop" data-target="open">
+            <div>Arrastra o haz clic</div>
+            <small>PNG transparente</small>
+            <input type="file" accept="image/png,image/*" hidden />
+            <div class="preview"></div>
+          </div>
+        </div>
+        <div>
+          <label>🎵 Audio del canto (.mp3) *</label>
+          <div class="drop" data-target="audio">
+            <div>Arrastra o haz clic</div>
+            <small>MP3 / WAV</small>
+            <input type="file" accept="audio/*" hidden />
+            <div class="preview"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:20px">
+        <button class="btn big" id="saveBtn">💾 Guardar ave</button>
+        <button class="btn ghost" id="clearFormBtn">Limpiar formulario</button>
+        <span class="muted" id="formMsg"></span>
+      </div>
+    </div>
+
+    <!-- Lista de aves cargadas -->
+    <div class="card" style="margin-top:20px">
+      <div class="row">
+        <h2 style="margin:0">Aves en la plataforma</h2>
+        <div class="spacer"></div>
+        <button class="btn secondary" id="wipeBtn">🗑️ Borrar todas las cargadas</button>
+      </div>
+      <p class="muted">Las marcadas como <span class="badge seed">ejemplo</span> vienen incluidas; puedes reemplazarlas cargando las tuyas.</p>
+      <div class="admin-list" id="list"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <footer>Los archivos se guardan localmente en este navegador (IndexedDB). Para publicarlos a todos, súbelos al repo.</footer>
+
+  <audio id="prev"></audio>
+  <script src="js/storage.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
