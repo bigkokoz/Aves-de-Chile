@@ -114,7 +114,8 @@
       item.innerHTML = `
         <img src="${bird.photoURL || bird.standingURL}" alt="${bird.name}" />
         <span class="name">${bird.name}</span>
-        <span class="badge ${bird.editable ? "" : "seed"}">${bird.editable ? "cargada" : "ejemplo"}</span>
+        <span class="badge ${bird.editable ? "" : "seed"}">${bird.editable ? "cargada" : "del repo"}</span>
+        ${bird.hasRealAudio === false && !bird.editable ? '<span class="badge">♪ audio temporal</span>' : ""}
         <button class="btn ghost play">▶</button>
         ${bird.editable ? '<button class="btn secondary del">Eliminar</button>' : ""}
       `;
