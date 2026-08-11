@@ -33,7 +33,10 @@ html, body {
 }
 
 body {
-  background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bot) 62%, #dfeede 100%);
+  /* Cielo azul (tomado de la portada) — es el fondo de todas las páginas.
+     En Inicio, la escena se superpone abajo. */
+  background: linear-gradient(180deg, #a4cde5 0%, #bfdcec 48%, #d9ebf2 100%);
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
 }
@@ -352,3 +355,116 @@ footer {
   display: inline-block; background: #eef6f0; border: 1px solid #cfe6d6;
   padding: 4px 12px; border-radius: 999px; font-weight: 600; font-size: .9rem;
 }
+
+/* ===========================================================
+   PORTADA CON ILUSTRACIÓN + AVES POSADAS (Inicio)
+   =========================================================== */
+
+/* La escena ocupa el ancho completo; su alto lo da la imagen. */
+.hero-scene {
+  position: relative;
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+  transition: transform .6s cubic-bezier(.5,.05,.4,1), opacity .6s ease;
+  will-change: transform;
+  z-index: 1;
+}
+.hero-scene .scene-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Nombre del ave que aparece al pasar el mouse */
+.scene-name {
+  position: absolute;
+  top: 4%;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: clamp(1.4rem, 3.2vw, 2.6rem);
+  font-weight: 800;
+  color: #1f3a4d;
+  text-shadow: 0 2px 8px rgba(255,255,255,.7), 0 1px 0 #fff;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s ease;
+  z-index: 4;
+  line-height: 1.1;
+}
+.scene-name.show { opacity: 1; }
+
+/* Título de bienvenida sobre el cielo de la portada */
+.hero-welcome {
+  position: absolute;
+  top: 5%;
+  left: 0; right: 0;
+  text-align: center;
+  pointer-events: none;
+  z-index: 3;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.25;
+}
+.hero-welcome h1 {
+  margin: 0;
+  font-size: clamp(1.4rem, 3.1vw, 2.4rem);
+  color: #143649;
+  text-shadow: 0 2px 10px rgba(255,255,255,.75), 0 1px 0 #fff;
+}
+.hero-welcome p {
+  margin: 0;
+  max-width: 560px;
+  color: #21455a;
+  font-weight: 600;
+  font-size: clamp(.85rem, 1.5vw, 1rem);
+  text-shadow: 0 1px 8px rgba(255,255,255,.9);
+}
+
+/* Capa de aves */
+.scene-birds { position: absolute; inset: 0; z-index: 2; }
+.perch-bird {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  cursor: pointer;
+  transition: left 1.05s cubic-bezier(.35,.02,.25,1),
+              top  1.05s cubic-bezier(.35,.02,.25,1);
+  will-change: left, top;
+}
+.perch-bird.face-left { transform: translate(-50%, -100%) scaleX(-1); }
+.perch-bird img {
+  display: block;
+  height: 100%;
+  filter: drop-shadow(0 5px 4px rgba(0,0,0,.28));
+}
+/* Balanceo suave al estar posada */
+.perch-bird.idle img { animation: birdBob 3.2s ease-in-out infinite; }
+@keyframes birdBob {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-3px); }
+}
+/* Mientras vuela, sin balanceo */
+.perch-bird.flying img { animation: none; }
+
+/* Transición “cámara sube al cielo” al salir de Inicio */
+body.leaving .hero-scene { transform: translateY(70%); opacity: 0; }
+body.leaving .intro-cards { opacity: 0; transform: translateY(20px); }
+
+/* Entrada suave al llegar a Inicio */
+.hero-scene.enter { animation: sceneUp .7s cubic-bezier(.4,.05,.35,1) both; }
+@keyframes sceneUp {
+  from { transform: translateY(45%); opacity: 0; }
+  to   { transform: none; opacity: 1; }
+}
+
+/* Tarjetas de intro bajo la escena */
+.intro-cards { transition: opacity .5s ease, transform .5s ease; }
+
+/* Fade-in de contenido en páginas de cielo */
+.sky-fade { animation: skyFade .5s ease both; }
+@keyframes skyFade { from { opacity: 0; transform: translateY(14px);} to{opacity:1;transform:none;} }

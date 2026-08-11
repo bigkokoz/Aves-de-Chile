@@ -1,44 +1,165 @@
-/* home.js — arma el borde de roca con las aves y el hover (alas + sonido) */
+/* ============================================================
+   home.js — Portada con aves posadas sobre la ilustración
+   - Posa las aves en "posaderos" coherentes (roca, quisco,
+     puya, suelo) definidos como % de la escena.
+   - Cada cierto tiempo aleatorio, un ave vuela a otro posadero
+     libre (con aleteo y volteo según la dirección).
+   - Hover: muestra el nombre y reproduce el canto.
+   - Transición: al ir a otra pestaña, la cámara "sube al cielo".
+   ============================================================ */
 (async function () {
-  const ledge = document.getElementById("ledge");
-  const hoverName = document.getElementById("hoverName");
+  const hero = document.getElementById("hero");
+  const layer = document.getElementById("ledge");
+  const nameEl = document.getElementById("hoverName");
   const chirp = document.getElementById("chirp");
 
-  const birds = await PuenteAves.getAllBirds();
-  ledge.innerHTML = "";
+  /* Posaderos: coordenadas (% del ancho, % del alto) donde el
+     ave apoya las patas. Ajustados a superficies de la ilustración. */
+  const PERCHES = [
+    { x: 33.5, y: 47 },  // punta del quisco alto (izq)
+    { x: 19,   y: 55 },  // roca bajo los quiscos (izq)
+    { x: 49,   y: 43 },  // cima del roquerío central
+    { x: 61,   y: 55 },  // repisa de roca (centro-der)
+    { x: 41,   y: 74 },  // roca pálida grande (centro-bajo)
+    { x: 62,   y: 60 },  // sobre la puya
+    { x: 51,   y: 78 },  // cactus barril (centro)
+    { x: 14,   y: 72 },  // arbustos/roca izquierda
+    { x: 86,   y: 84 },  // roquerío derecha
+    { x: 46,   y: 90 },  // sendero/suelo central
+    { x: 73,   y: 72 },  // matorral centro-derecha
+    { x: 34,   y: 84 },  // suelo izquierda-baja
+    { x: 65,   y: 53 },  // roca (der del centro)
+  ];
 
-  if (!birds.length) {
-    ledge.innerHTML = '<p style="color:#ede4d3">Aún no hay aves. Ve a <b>Admin</b> para cargarlas.</p>';
-    return;
+  const occupied = new Set();      // índices de posaderos ocupados
+  const birdsData = await PuenteAves.getAllBirds();
+  layer.innerHTML = "";
+  if (!birdsData.length) return;
+
+  // Altura de cada ave según el alto de la escena.
+  function birdPx() { return Math.max(30, Math.round(hero.clientHeight * 0.11)); }
+
+  const flock = [];
+
+  // Coloca cada ave en un posadero inicial distinto.
+  const startPerches = shuffle([...PERCHES.keys()]);
+  birdsData.forEach((bird, i) => {
+    const perchIndex = startPerches[i % PERCHES.length];
+    occupied.add(perchIndex);
+
+    const el = document.createElement("div");
+    el.className = "perch-bird idle";
+    el.style.height = birdPx() + "px";
+    el.style.left = PERCHES[perchIndex].x + "%";
+    el.style.top = PERCHES[perchIndex].y + "%";
+    el.innerHTML = `<img src="${bird.standingURL}" alt="${bird.name}" />`;
+    const img = el.querySelector("img");
+
+    el.style.animationDelay = (Math.random() * 3) + "s";
+
+    const state = { bird, el, img, perchIndex, paused: false, timer: null };
+
+    el.addEventListener("mouseenter", () => {
+      state.paused = true;
+      nameEl.textContent = bird.name;
+      nameEl.classList.add("show");
+      el.style.zIndex = 10;
+      if (bird.audioURL) { chirp.src = bird.audioURL; chirp.currentTime = 0; chirp.play().catch(() => {}); }
+    });
+    el.addEventListener("mouseleave", () => {
+      state.paused = false;
+      nameEl.classList.remove("show");
+      el.style.zIndex = "";
+    });
+    // En móvil: tocar reproduce y nombra
+    el.addEventListener("click", () => {
+      nameEl.textContent = bird.name;
+      nameEl.classList.add("show");
+      if (bird.audioURL) { chirp.src = bird.audioURL; chirp.play().catch(() => {}); }
+      setTimeout(() => nameEl.classList.remove("show"), 1600);
+    });
+
+    layer.appendChild(el);
+    flock.push(state);
+    scheduleHop(state);
+  });
+
+  // Reajusta el tamaño de las aves si cambia el tamaño de la ventana.
+  window.addEventListener("resize", () => {
+    const h = birdPx() + "px";
+    flock.forEach((s) => (s.el.style.height = h));
+  });
+
+  function scheduleHop(state) {
+    const delay = 3000 + Math.random() * 5000; // 3–8 s
+    state.timer = setTimeout(() => hop(state), delay);
   }
 
-  birds.forEach((bird) => {
-    const perch = document.createElement("div");
-    perch.className = "perch";
-    perch.title = bird.name;
-    perch.innerHTML = `
-      <img class="stand-img" src="${bird.standingURL || bird.photoURL}" alt="${bird.name} posado" />
-      <img class="open-img" src="${bird.openURL || bird.standingURL || bird.photoURL}" alt="${bird.name} volando" />
-    `;
+  function hop(state) {
+    if (state.paused) { scheduleHop(state); return; }
 
-    perch.addEventListener("mouseenter", () => {
-      hoverName.textContent = bird.name;
-      hoverName.style.opacity = "1";
-      if (bird.audioURL) {
-        chirp.src = bird.audioURL;
-        chirp.currentTime = 0;
-        chirp.play().catch(() => {});
-      }
-    });
-    perch.addEventListener("mouseleave", () => {
-      hoverName.textContent = "Pasa el mouse por las aves 🪶";
-    });
-    // En móvil: tocar reproduce el sonido
-    perch.addEventListener("click", () => {
-      hoverName.textContent = bird.name;
-      if (bird.audioURL) { chirp.src = bird.audioURL; chirp.play().catch(() => {}); }
+    // elige un posadero libre
+    const free = [...PERCHES.keys()].filter((i) => !occupied.has(i));
+    if (!free.length) { scheduleHop(state); return; }
+    const target = free[Math.floor(Math.random() * free.length)];
+
+    const from = PERCHES[state.perchIndex];
+    const to = PERCHES[target];
+
+    // libera el actual, ocupa el destino
+    occupied.delete(state.perchIndex);
+    occupied.add(target);
+    state.perchIndex = target;
+
+    // mira hacia donde va (las ilustraciones miran a la derecha)
+    if (to.x < from.x) state.el.classList.add("face-left");
+    else state.el.classList.remove("face-left");
+
+    // despega: alas abiertas
+    state.el.classList.remove("idle");
+    state.el.classList.add("flying");
+    state.el.style.zIndex = 6;
+    if (state.bird.openURL) state.img.src = state.bird.openURL;
+
+    // mueve (la transición CSS anima left/top)
+    requestAnimationFrame(() => {
+      state.el.style.left = to.x + "%";
+      state.el.style.top = to.y + "%";
     });
 
-    ledge.appendChild(perch);
+    // aterriza: alas cerradas
+    setTimeout(() => {
+      state.img.src = state.bird.standingURL;
+      state.el.classList.remove("flying");
+      state.el.classList.add("idle");
+      state.el.style.zIndex = "";
+      scheduleHop(state);
+    }, 1100);
+  }
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  /* ---------- Transición: cámara sube al cielo ---------- */
+  // Si venimos de otra página, entra la escena desde abajo.
+  if (sessionStorage.getItem("fromApp")) {
+    hero.classList.add("enter");
+    sessionStorage.removeItem("fromApp");
+  }
+  document.querySelectorAll("a.nav-go").forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const href = a.getAttribute("href");
+      if (!href || href.startsWith("#")) return;
+      e.preventDefault();
+      document.body.classList.add("leaving");
+      sessionStorage.setItem("fromApp", "1");
+      setTimeout(() => (window.location.href = href), 560);
+    });
   });
 })();
