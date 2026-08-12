@@ -38,6 +38,33 @@
         <p class="muted">Cargando aves…</p>
       </div>
     </div>
+
+    <div class="card" style="margin-top:20px">
+      <h2>Tipos de cantos 🎶</h2>
+      <p class="muted">Las aves no “cantan” todas igual. Escucha un ejemplo de cada tipo de sonido para aprender a distinguirlos:</p>
+      <div class="grid">
+        <div class="bird-card">
+          <h3>🎵 Trino</h3>
+          <p class="muted">Una nota que se repite muy rápido y vibrante, tipo “trrrr”.</p>
+          <button class="btn sun" data-sound="trino">▶ Ejemplo</button>
+        </div>
+        <div class="bird-card">
+          <h3>🎶 Gorjeo</h3>
+          <p class="muted">Sucesión de notas melodiosas que suben y bajan, como una cancioncita.</p>
+          <button class="btn sun" data-sound="gorjeo">▶ Ejemplo</button>
+        </div>
+        <div class="bird-card">
+          <h3>🌬️ Silbido</h3>
+          <p class="muted">Un sonido claro y sostenido, parecido a un silbato.</p>
+          <button class="btn sun" data-sound="silbido">▶ Ejemplo</button>
+        </div>
+        <div class="bird-card">
+          <h3>💧 Gorgorito</h3>
+          <p class="muted">Sonido burbujeante y rodado, más grave y gutural.</p>
+          <button class="btn sun" data-sound="gorgorito">▶ Ejemplo</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <footer>Sección de estudio · Sin puntaje · Practica todo lo que quieras</footer>
@@ -46,6 +73,12 @@
 
   <script src="js/birds.js"></script>
   <script src="js/storage.js"></script>
+  <script src="js/birdsounds.js"></script>
   <script src="js/learn.js"></script>
+  <script>
+    document.querySelectorAll("[data-sound]").forEach((b) =>
+      b.addEventListener("click", () => window.BirdSounds.play(b.dataset.sound))
+    );
+  </script>
 </body>
 </html>

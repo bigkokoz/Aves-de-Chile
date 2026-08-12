@@ -91,7 +91,7 @@
   });
 
   function scheduleHop(state) {
-    const delay = 3000 + Math.random() * 5000; // 3–8 s
+    const delay = 15000 + Math.random() * 20000; // 15–35 s (movimiento calmado)
     state.timer = setTimeout(() => hop(state), delay);
   }
 
