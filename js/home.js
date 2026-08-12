@@ -37,7 +37,12 @@
   if (!birdsData.length) return;
 
   // Altura de cada ave según el alto de la escena.
-  function birdPx() { return Math.max(30, Math.round(hero.clientHeight * 0.11)); }
+  function birdPx() {
+    // En móvil la escena es más baja: hacemos las aves algo más grandes
+    // (más fáciles de tocar) que en escritorio.
+    const factor = window.innerWidth < 640 ? 0.16 : 0.11;
+    return Math.max(28, Math.round(hero.clientHeight * factor));
+  }
 
   const flock = [];
 

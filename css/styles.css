@@ -468,3 +468,68 @@ body.leaving .intro-cards { opacity: 0; transform: translateY(20px); }
 /* Fade-in de contenido en páginas de cielo */
 .sky-fade { animation: skyFade .5s ease both; }
 @keyframes skyFade { from { opacity: 0; transform: translateY(14px);} to{opacity:1;transform:none;} }
+
+/* ===========================================================
+   MÓVIL — ajustes para pantallas chicas (sin cambiar la lógica)
+   =========================================================== */
+@media (max-width: 640px) {
+  /* Barra superior más compacta; los links quedan en una fila que
+     se desliza horizontalmente si no caben. */
+  .topbar {
+    padding: 8px 10px;
+    gap: 6px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .topbar::-webkit-scrollbar { display: none; }
+  .brand { font-size: 1rem; gap: 5px; white-space: nowrap; flex-shrink: 0; margin-right: 12px; }
+  .brand .dot { display: none; }
+  .nav-link { padding: 6px 10px; font-size: .88rem; white-space: nowrap; flex-shrink: 0; }
+
+  /* El fondo fijo puede saltar en iOS: lo dejamos normal en móvil. */
+  body { background-attachment: scroll; }
+
+  /* Contenedores y tarjetas con menos aire. */
+  .wrap { width: 94vw; padding: 16px 0 30px; }
+  .card { padding: 15px; border-radius: 14px; }
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  .btn { padding: 11px 16px; }
+  .btn.big { padding: 13px 20px; font-size: 1.02rem; }
+
+  /* Portada: nombre del ave más chico y arriba del todo. */
+  .scene-name { font-size: 1.15rem; top: 2.5%; }
+
+  /* Juego: opciones y grillas más apretadas. */
+  .scorebar { gap: 8px; }
+  .options-grid { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; }
+  .option { padding: 9px; }
+  .option img { height: 92px; }
+  .mode-grid { grid-template-columns: 1fr; }
+  .mode-card { padding: 16px; }
+
+  /* Aprender: tarjetas de aves más chicas. */
+  .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .bird-card { padding: 11px; }
+  .bird-card img { height: 108px; }
+
+  /* Admin: zonas de carga en una columna. */
+  .upload-grid { grid-template-columns: 1fr; }
+
+  footer { padding: 14px; font-size: .82rem; }
+}
+
+/* Pantallas muy angostas (≤380px): apretar un poco más. */
+@media (max-width: 380px) {
+  .nav-link { padding: 5px 8px; font-size: .82rem; }
+  .brand { font-size: .92rem; }
+  .options-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* Controles interactivos: sin selección de texto ni destello al tocar (móvil). */
+.btn, .tab, .option, .mode-card, .nav-link, .perch-bird, .drop, .brand {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
