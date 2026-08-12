@@ -70,6 +70,7 @@
       state.paused = false;
       nameEl.classList.remove("show");
       el.style.zIndex = "";
+      chirp.pause();  // corta el canto al salir (los clips reales duran varios segundos)
     });
     // En móvil: tocar reproduce y nombra
     el.addEventListener("click", () => {
