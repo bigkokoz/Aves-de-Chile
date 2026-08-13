@@ -64,25 +64,46 @@
 
     const state = { bird, el, img, perchIndex, paused: false, timer: null };
 
+    // Abre las alas (cambia al PNG "abierto") si el ave no está en pleno vuelo.
+    function openWings() {
+      if (state.el.classList.contains("flying")) return;
+      state.el.classList.remove("idle");
+      state.img.src = bird.openURL || bird.standingURL;
+    }
+    // Cierra las alas (vuelve al PNG "parado").
+    function closeWings() {
+      if (state.el.classList.contains("flying")) return;
+      state.img.src = bird.standingURL;
+      state.el.classList.add("idle");
+    }
+
     el.addEventListener("mouseenter", () => {
       state.paused = true;
       nameEl.textContent = bird.name;
       nameEl.classList.add("show");
       el.style.zIndex = 10;
+      openWings();
       if (bird.audioURL) { chirp.src = bird.audioURL; chirp.currentTime = 0; chirp.play().catch(() => {}); }
     });
     el.addEventListener("mouseleave", () => {
       state.paused = false;
       nameEl.classList.remove("show");
       el.style.zIndex = "";
+      closeWings();
       chirp.pause();  // corta el canto al salir (los clips reales duran varios segundos)
     });
-    // En móvil: tocar reproduce y nombra
+    // En móvil: tocar abre las alas, nombra y reproduce.
     el.addEventListener("click", () => {
       nameEl.textContent = bird.name;
       nameEl.classList.add("show");
+      el.style.zIndex = 10;
+      openWings();
       if (bird.audioURL) { chirp.src = bird.audioURL; chirp.play().catch(() => {}); }
-      setTimeout(() => nameEl.classList.remove("show"), 1600);
+      setTimeout(() => {
+        nameEl.classList.remove("show");
+        el.style.zIndex = "";
+        closeWings();
+      }, 1600);
     });
 
     layer.appendChild(el);
