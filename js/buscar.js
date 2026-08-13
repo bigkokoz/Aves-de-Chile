@@ -10,11 +10,11 @@
 
   const BIRDS_PER_ROUND = 6;
 
-  // Posaderos sobre la ilustración (mismos puntos coherentes de la portada).
+  // Posaderos sobre el bosque: copas de árboles, arbustos y suelo.
   const PERCHES = [
-    { x: 33.5, y: 47 }, { x: 49, y: 43 }, { x: 61, y: 55 }, { x: 41, y: 74 },
-    { x: 62, y: 60 },   { x: 51, y: 78 }, { x: 14, y: 72 }, { x: 86, y: 84 },
-    { x: 73, y: 72 },   { x: 65, y: 53 }, { x: 46, y: 90 },
+    { x: 17, y: 33 }, { x: 50, y: 24 }, { x: 83, y: 33 },  // copas de los árboles
+    { x: 9,  y: 83 }, { x: 30, y: 85 }, { x: 60, y: 84 }, { x: 81, y: 83 }, // arbustos
+    { x: 45, y: 92 }, { x: 66, y: 91 }, // suelo
   ];
 
   const scene = document.getElementById("scene");
@@ -61,9 +61,14 @@
     callAudio.play().catch(() => {});
   }
 
+  // Alto de la escena (robusto: la escena tiene aspect-ratio 16:9,
+  // así que no depende de que cargue una imagen).
+  function sceneH() {
+    return scene.clientHeight || Math.round(scene.clientWidth * 9 / 16);
+  }
   function birdPx() {
-    const factor = window.innerWidth < 640 ? 0.17 : 0.13;
-    return Math.max(34, Math.round(scene.clientHeight * factor));
+    const factor = window.innerWidth < 640 ? 0.16 : 0.13;
+    return Math.max(32, Math.round(sceneH() * factor));
   }
 
   function shuffle(arr) {

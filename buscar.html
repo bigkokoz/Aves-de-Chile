@@ -4,21 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Encuentra el ave — Aves de Chile</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=3" />
 </head>
 <body>
   <nav class="topbar">
     <div class="brand">🐦 Aves de Chile <span class="dot">●</span></div>
     <a class="nav-link" href="index.html">Inicio</a>
     <a class="nav-link" href="learn.html">Aprender a jugar</a>
-    <a class="nav-link" href="game.html">Juego</a>
-    <a class="nav-link active" href="buscar.html">🔍 Buscar</a>
+    <a class="nav-link active" href="game.html">Juego</a>
     <a class="nav-link" href="admin.html">Admin</a>
   </nav>
 
   <div class="wrap">
     <div class="row">
-      <a class="btn ghost" href="index.html">◀ Atrás</a>
+      <a class="btn ghost" href="game.html">◀ Volver a Juego</a>
       <button class="btn sun" id="restart">🔄 Otra ronda</button>
       <div class="spacer"></div>
       <span class="pill-info" id="score">Encontradas: 0 / 0</span>
@@ -27,7 +26,82 @@
     <div class="card" style="margin-top:14px; padding:0; overflow:hidden">
       <div class="find-scene" id="scene">
         <div class="find-banner" id="banner"></div>
-        <img class="scene-img" src="assets/scene/portada.png" alt="Bosque de aves" />
+
+        <!-- Bosque animado -->
+        <svg class="forest" viewBox="0 0 1200 675" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#bfe8f5"/><stop offset="0.55" stop-color="#dff3ea"/><stop offset="1" stop-color="#eef7d8"/>
+            </linearGradient>
+            <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#8fc25a"/><stop offset="1" stop-color="#5f9c3e"/>
+            </linearGradient>
+            <radialGradient id="sun" cx="0.5" cy="0.5" r="0.5">
+              <stop offset="0" stop-color="#fff6cf"/><stop offset="1" stop-color="#ffe58a"/>
+            </radialGradient>
+          </defs>
+
+          <rect width="1200" height="675" fill="url(#sky)"/>
+
+          <!-- Sol con rayos -->
+          <g transform="translate(1050,120)">
+            <g class="rays" fill="none" stroke="#ffe58a" stroke-width="8" stroke-linecap="round" opacity=".8">
+              <line x1="0" y1="-95" x2="0" y2="-70"/><line x1="0" y1="70" x2="0" y2="95"/>
+              <line x1="-95" y1="0" x2="-70" y2="0"/><line x1="70" y1="0" x2="95" y2="0"/>
+              <line x1="-67" y1="-67" x2="-49" y2="-49"/><line x1="49" y1="49" x2="67" y2="67"/>
+              <line x1="-67" y1="67" x2="-49" y2="49"/><line x1="49" y1="-49" x2="67" y2="-67"/>
+            </g>
+            <circle r="52" fill="url(#sun)"/>
+          </g>
+
+          <!-- Nubes -->
+          <g class="cloud-a" fill="#ffffff" opacity=".9">
+            <ellipse cx="230" cy="110" rx="60" ry="26"/><ellipse cx="285" cy="98" rx="46" ry="24"/><ellipse cx="180" cy="120" rx="40" ry="20"/>
+          </g>
+          <g class="cloud-b" fill="#ffffff" opacity=".8">
+            <ellipse cx="620" cy="80" rx="52" ry="22"/><ellipse cx="670" cy="92" rx="40" ry="20"/>
+          </g>
+
+          <!-- Cerros de fondo -->
+          <path d="M0 430 Q200 340 430 420 Q680 330 920 420 Q1080 360 1200 415 L1200 500 0 500 Z" fill="#a7cf7e"/>
+          <path d="M0 470 Q260 400 560 470 T1200 465 L1200 560 0 560 Z" fill="#88bb60"/>
+
+          <!-- Árbol izquierda -->
+          <g class="tree t1">
+            <rect x="188" y="360" width="26" height="250" rx="10" fill="#7a5636"/>
+            <ellipse cx="200" cy="300" rx="96" ry="80" fill="#3f8f43"/>
+            <ellipse cx="150" cy="330" rx="58" ry="48" fill="#4fa04f"/>
+            <ellipse cx="250" cy="330" rx="60" ry="50" fill="#357d38"/>
+          </g>
+          <!-- Árbol centro (más alto) -->
+          <g class="tree t2">
+            <rect x="588" y="300" width="30" height="315" rx="12" fill="#7a5636"/>
+            <ellipse cx="603" cy="235" rx="110" ry="92" fill="#3f8f43"/>
+            <ellipse cx="545" cy="270" rx="64" ry="52" fill="#4fa04f"/>
+            <ellipse cx="665" cy="270" rx="66" ry="54" fill="#357d38"/>
+          </g>
+          <!-- Árbol derecha -->
+          <g class="tree t3">
+            <rect x="988" y="360" width="26" height="250" rx="10" fill="#7a5636"/>
+            <ellipse cx="1000" cy="300" rx="94" ry="78" fill="#3f8f43"/>
+            <ellipse cx="1052" cy="330" rx="56" ry="46" fill="#4fa04f"/>
+            <ellipse cx="950" cy="330" rx="58" ry="48" fill="#357d38"/>
+          </g>
+
+          <!-- Suelo -->
+          <path d="M0 560 Q300 520 600 555 T1200 552 L1200 675 0 675 Z" fill="url(#ground)"/>
+
+          <!-- Arbustos -->
+          <g>
+            <ellipse cx="110" cy="612" rx="78" ry="46" fill="#4a9a45"/><ellipse cx="150" cy="600" rx="46" ry="34" fill="#5cae53"/>
+            <ellipse cx="360" cy="628" rx="88" ry="50" fill="#43933f"/><ellipse cx="315" cy="616" rx="50" ry="36" fill="#57a84e"/>
+            <ellipse cx="720" cy="628" rx="92" ry="52" fill="#4a9a45"/><ellipse cx="762" cy="616" rx="52" ry="38" fill="#5cae53"/>
+            <ellipse cx="975" cy="612" rx="80" ry="46" fill="#43933f"/><ellipse cx="1015" cy="602" rx="48" ry="34" fill="#57a84e"/>
+          </g>
+          <!-- Florcitas -->
+          <g><circle cx="470" cy="650" r="6" fill="#ff6b6b"/><circle cx="560" cy="662" r="6" fill="#ffd94a"/><circle cx="640" cy="655" r="6" fill="#ff9ecb"/><circle cx="880" cy="660" r="6" fill="#ffd94a"/></g>
+        </svg>
+
         <div class="find-birds" id="birds"></div>
       </div>
       <div class="find-list" id="list"></div>
@@ -45,7 +119,7 @@
       <h2 id="winTitle">🎉 ¡Muy bien!</h2>
       <p class="muted" id="winMsg"></p>
       <button class="btn" id="playAgain">🔄 Jugar otra vez</button>
-      <a class="btn secondary" href="index.html">🏠 Menú principal</a>
+      <a class="btn secondary" href="game.html">🎮 Volver a Juego</a>
     </div>
   </div>
 
@@ -53,8 +127,8 @@
 
   <audio id="callAudio"></audio>
 
-  <script src="js/birds.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/buscar.js"></script>
+  <script src="js/birds.js?v=3"></script>
+  <script src="js/storage.js?v=3"></script>
+  <script src="js/buscar.js?v=3"></script>
 </body>
 </html>

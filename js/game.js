@@ -21,7 +21,7 @@
     solved: false,    // ave actual ya resuelta
   };
 
-  const MODE_NAMES = { listen: "🔊 Escuchar", see: "👁️ Ver", name: "📖 Por nombre" };
+  const MODE_NAMES = { listen: "🔊 Escuchar", see: "👁️ Ver", name: "📖 Por nombre", buscar: "🔍 Encuentra el ave" };
 
   /* ---------- Navegación de pestañas ---------- */
   const tabs = document.querySelectorAll(".tab");
@@ -71,6 +71,8 @@
   /* ---------- Arranque de partida ---------- */
   function startGame() {
     if (!state.mode) return;
+    // El modo "Encuentra el ave" es un juego aparte (bosque).
+    if (state.mode === "buscar") { window.location.href = "buscar.html"; return; }
     state.queue = shuffle([...state.birds]);
     state.index = 0;
     state.correct = 0;

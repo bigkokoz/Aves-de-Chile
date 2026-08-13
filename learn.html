@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aprender — Aves de Chile</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=3" />
 </head>
 <body>
   <nav class="topbar">
@@ -12,7 +12,6 @@
     <a class="nav-link" href="index.html">Inicio</a>
     <a class="nav-link active" href="learn.html">Aprender a jugar</a>
     <a class="nav-link" href="game.html">Juego</a>
-    <a class="nav-link" href="buscar.html">🔍 Buscar</a>
     <a class="nav-link" href="admin.html">Admin</a>
   </nav>
 
@@ -72,10 +71,10 @@
 
   <audio id="player"></audio>
 
-  <script src="js/birds.js"></script>
-  <script src="js/storage.js"></script>
-  <script src="js/birdsounds.js"></script>
-  <script src="js/learn.js"></script>
+  <script src="js/birds.js?v=3"></script>
+  <script src="js/storage.js?v=3"></script>
+  <script src="js/birdsounds.js?v=3"></script>
+  <script src="js/learn.js?v=3"></script>
   <script>
     document.querySelectorAll("[data-sound]").forEach((b) =>
       b.addEventListener("click", () => window.BirdSounds.play(b.dataset.sound))

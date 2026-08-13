@@ -540,11 +540,29 @@ body.leaving .intro-cards { opacity: 0; transform: translateY(20px); }
 .find-scene {
   position: relative;
   width: 100%;
-  line-height: 0;
+  aspect-ratio: 16 / 9;      /* alto determinista: arregla el descuadre */
   overflow: hidden;
   border-radius: 0 0 4px 4px;
 }
-.find-scene .scene-img { display: block; width: 100%; height: auto; user-select: none; }
+.find-scene .forest {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: block;
+}
+/* Animaciones del bosque */
+.forest .cloud-a { animation: driftA 46s linear infinite; }
+.forest .cloud-b { animation: driftB 62s linear infinite; }
+.forest .tree    { transform-box: fill-box; transform-origin: bottom center; animation: sway 6s ease-in-out infinite; }
+.forest .tree.t2 { animation-duration: 7.5s; animation-delay: -2s; }
+.forest .tree.t3 { animation-duration: 8.5s; animation-delay: -4s; }
+.forest .rays    { transform-box: fill-box; transform-origin: center; animation: spin 90s linear infinite; }
+@keyframes driftA { from { transform: translateX(-160px); } to { transform: translateX(1360px); } }
+@keyframes driftB { from { transform: translateX(1360px); } to { transform: translateX(-260px); } }
+@keyframes sway   { 0%,100% { transform: rotate(-1.2deg); } 50% { transform: rotate(1.2deg); } }
+@keyframes spin   { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .forest .cloud-a, .forest .cloud-b, .forest .tree, .forest .rays { animation: none; }
+}
 
 .find-banner {
   position: absolute;
