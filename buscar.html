@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Encuentra el ave — Aves de Chile</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="topbar">
+    <div class="brand">🐦 Aves de Chile <span class="dot">●</span></div>
+    <a class="nav-link" href="index.html">Inicio</a>
+    <a class="nav-link" href="learn.html">Aprender a jugar</a>
+    <a class="nav-link" href="game.html">Juego</a>
+    <a class="nav-link active" href="buscar.html">🔍 Buscar</a>
+    <a class="nav-link" href="admin.html">Admin</a>
+  </nav>
+
+  <div class="wrap">
+    <div class="row">
+      <a class="btn ghost" href="index.html">◀ Atrás</a>
+      <button class="btn sun" id="restart">🔄 Otra ronda</button>
+      <div class="spacer"></div>
+      <span class="pill-info" id="score">Encontradas: 0 / 0</span>
+    </div>
+
+    <div class="card" style="margin-top:14px; padding:0; overflow:hidden">
+      <div class="find-scene" id="scene">
+        <div class="find-banner" id="banner"></div>
+        <img class="scene-img" src="assets/scene/portada.png" alt="Bosque de aves" />
+        <div class="find-birds" id="birds"></div>
+      </div>
+      <div class="find-list" id="list"></div>
+    </div>
+
+    <p class="muted center" style="margin-top:14px">
+      Toca el ave que se te pide arriba. Si aciertas se marca <b style="color:#2f9e57">verde ✓</b>;
+      si te equivocas, la que tocaste se pone <b style="color:#d1495b">roja</b>. ¡Encuéntralas todas! 🌲
+    </p>
+  </div>
+
+  <!-- Modal de victoria -->
+  <div class="overlay" id="winOverlay">
+    <div class="modal">
+      <h2 id="winTitle">🎉 ¡Muy bien!</h2>
+      <p class="muted" id="winMsg"></p>
+      <button class="btn" id="playAgain">🔄 Jugar otra vez</button>
+      <a class="btn secondary" href="index.html">🏠 Menú principal</a>
+    </div>
+  </div>
+
+  <footer>Encuentra las aves por su nombre y su canto 🔊</footer>
+
+  <audio id="callAudio"></audio>
+
+  <script src="js/birds.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/buscar.js"></script>
+</body>
+</html>

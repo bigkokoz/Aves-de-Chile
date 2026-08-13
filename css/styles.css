@@ -533,3 +533,103 @@ body.leaving .intro-cards { opacity: 0; transform: translateY(20px); }
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
+
+/* ===========================================================
+   JUEGO "ENCUENTRA EL AVE" (buscar.html)
+   =========================================================== */
+.find-scene {
+  position: relative;
+  width: 100%;
+  line-height: 0;
+  overflow: hidden;
+  border-radius: 0 0 4px 4px;
+}
+.find-scene .scene-img { display: block; width: 100%; height: auto; user-select: none; }
+
+.find-banner {
+  position: absolute;
+  top: 4%;
+  left: 0; right: 0;
+  text-align: center;
+  z-index: 5;
+  pointer-events: none;
+  padding: 0 12px;
+}
+.find-banner .lead {
+  display: inline-block;
+  background: rgba(255,253,247,.9);
+  border: 2px solid var(--sun);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 800;
+  font-size: clamp(1rem, 2.6vw, 1.6rem);
+  color: #2a2a2a;
+  box-shadow: 0 4px 14px var(--shadow);
+  line-height: 1.2;
+}
+.find-banner .lead .tgt { color: var(--leaf-dark); }
+.find-banner .replay {
+  pointer-events: auto;
+  margin-left: 8px;
+  border: none;
+  background: var(--sun);
+  color: #3a2a10;
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.find-birds { position: absolute; inset: 0; z-index: 2; }
+.find-bird {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  cursor: pointer;
+}
+.find-bird img {
+  display: block;
+  height: 100%;
+  filter: drop-shadow(0 5px 4px rgba(0,0,0,.3));
+  transition: transform .12s ease, filter .12s ease;
+}
+.find-bird:hover img { transform: scale(1.07); }
+.find-bird.found { cursor: default; }
+.find-bird.found img { filter: drop-shadow(0 0 9px #37c26e) drop-shadow(0 4px 4px rgba(0,0,0,.3)); }
+.find-bird.found::after {
+  content: "✓";
+  position: absolute;
+  top: -10px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--ok);
+  color: #fff;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: .9rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,.3);
+}
+.find-bird.wrong img {
+  filter: drop-shadow(0 0 9px #ff4d6a) drop-shadow(0 4px 4px rgba(0,0,0,.3));
+  animation: findShake .42s ease;
+}
+@keyframes findShake {
+  0%,100% { transform: scale(1); }
+  20% { transform: scale(1.05) translateX(-5px); }
+  60% { transform: scale(1.05) translateX(5px); }
+}
+
+/* Lista de aves a buscar (abajo) */
+.find-list {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  padding: 14px; background: var(--paper);
+  border-radius: 0 0 16px 16px;
+  border: 1px solid #eee2c9; border-top: none;
+}
+.find-chip {
+  padding: 8px 14px; border-radius: 999px; background: #fff;
+  border: 2px solid #e5dcc4; font-weight: 700; font-size: .95rem;
+  display: flex; align-items: center; gap: 6px;
+}
+.find-chip.current { border-color: var(--sun); background: #fff7e6; }
+.find-chip.done { border-color: var(--ok); background: #eafaf0; color: var(--leaf-dark); }
+.find-chip.done .nm { text-decoration: line-through; opacity: .8; }
